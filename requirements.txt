@@ -1,4 +1,3 @@
 python-telegram-bot
 python-decouple
-sqlalchemy
-psycopg2-binary
+peewee

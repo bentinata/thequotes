@@ -3,6 +3,10 @@ import logging
 from telegram.ext import Updater, CommandHandler
 
 from handlers import handler_start, handler_error
+from handlers.add_quote import handler_add_quote
+from handlers.get_quote import handler_get_quote
+from handlers.get_random_quote import handler_get_random_quote
+from handlers.remove_quote import handler_remove_quote
 
 
 class Bot:
@@ -14,7 +18,7 @@ class Bot:
         self._port = port
         self._private_key = private_key
         self._certificate = certificate
-        self._updater = Updater(token, workers=workers)
+        self._updater = Updater(token, workers=workers, use_context=True)
         self._init_handlers()
 
     def run(self):
@@ -31,10 +35,6 @@ class Bot:
                                               self._token)
             )
         else:
-            webhook_url = input(
-                'enter your webhook url (ex: https://12345678.ngrok.io for ngrok user) [default:WEBHOOK_URL]'
-            )
-            self._webhook_url = webhook_url if webhook_url else self._webhook_url
             u.start_webhook(
                 listen=self._url,
                 port=self._port,
@@ -51,13 +51,15 @@ class Bot:
 
     def _init_handlers(self):
         start_handler = CommandHandler("start", handler_start, pass_args=True)
-        # quote_handler = CommandHandler("quote", handler_quote)
-        # get_random_quote_handler = CommandHandler("random", handler_get_random_quote)
-        # get_quote_handler = CommandHandler("get", handler_get_quote, pass_args=True)
+        add_quote_handler = CommandHandler("add", handler_add_quote)
+        get_random_quote_handler = CommandHandler("random", handler_get_random_quote)
+        get_quote_handler = CommandHandler("get", handler_get_quote, pass_args=True)
+        remove_quote_handler = CommandHandler("remove", handler_remove_quote, pass_args=True)
 
         dp = self._updater.dispatcher
         dp.add_handler(start_handler)
-        # dp.add_handler(quote_handler)
-        # dp.add_handler(get_random_quote_handler)
-        # dp.add_handler(get_quote_handler)
+        dp.add_handler(add_quote_handler)
+        dp.add_handler(get_random_quote_handler)
+        dp.add_handler(get_quote_handler)
+        dp.add_handler(remove_quote_handler)
         dp.add_error_handler(handler_error)

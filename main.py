@@ -2,8 +2,11 @@
 
 import logging
 
-from bot import Bot
 from decouple import config
+
+from bot import Bot
+from database import db
+from models import Quote
 
 if __name__ == '__main__':
     DEBUG = config("DEBUG", default=False, cast=bool)
@@ -18,6 +21,14 @@ if __name__ == '__main__':
     workers = config('WORKERS', default=4, cast=int)
     private_key = config('PRIVATE_KEY', default=None)
     certificate = config('CERTIFICATE', default=None)
+
+    logging.warning('Preparing database ...')
+    db.create_tables(
+        (
+            Quote,
+        ),
+        safe=True
+    )
 
     logging.warning('Starting...')
 
