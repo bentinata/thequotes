@@ -2,7 +2,7 @@ import logging
 
 from telegram.ext import Updater, CommandHandler
 
-from handlers import handler_start, handler_error
+from handlers import handler_start
 from handlers.add_quote import handler_add_quote
 from handlers.get_quote import handler_get_quote
 from handlers.get_random_quote import handler_get_random_quote
@@ -62,4 +62,4 @@ class Bot:
         dp.add_handler(get_random_quote_handler)
         dp.add_handler(get_quote_handler)
         dp.add_handler(remove_quote_handler)
-        dp.add_error_handler(handler_error)
+        # dp.add_error_handler(handler_error)
