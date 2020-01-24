@@ -9,7 +9,7 @@ def handler_get_random_quote(update, context):
         selected_quote = Quote.select().where(Quote.chat_id == chat.id).order_by(fn.Random()).limit(1)[0]
         chat.bot.forward_message(
             chat_id=chat.id,
-            from_chat_id=-355145151,
+            from_chat_id=chat.id,
             message_id=selected_quote.stored_message_id
         )
         return

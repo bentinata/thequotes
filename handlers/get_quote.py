@@ -11,7 +11,7 @@ def handler_get_quote(update, context):
             )
             chat.bot.forward_message(
                 chat_id=chat.id,
-                from_chat_id=-355145151,
+                from_chat_id=chat.id,
                 message_id=quote.stored_message_id
             )
             return

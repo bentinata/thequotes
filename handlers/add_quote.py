@@ -6,7 +6,7 @@ def handler_add_quote(update, context):
         message = update.effective_message
         chat = update.effective_chat
         if chat and message.reply_to_message:
-            forwarded = message.reply_to_message.forward(-355145151, disable_notification=True)
+            forwarded = message.reply_to_message.forward(update.message.chat.id, disable_notification=True)
             quote = Quote.create(
                 chat_id=chat.id,
                 user_id=message.reply_to_message.from_user.id,
